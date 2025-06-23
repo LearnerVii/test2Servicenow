@@ -58,21 +58,7 @@
 <script crossorigin="anonymous" src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
  
     <script>
-          let directLine = null;
-  const locale = document.documentElement.lang || 'en';
-          window.addEventListener("message", (event) => {
-  if (event.data?.type === "pageInfo") {
-    directLine.postActivity({
-      type: 'event',
-      name: 'startConversation',
-      locale,
-      localTimezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-      value: {
-        pageUrl: event.data.pageUrl
-      }
-    }).subscribe();
-  }
-});
+          
       (async function () {
         // Specifies style options to customize the Web Chat canvas
         // For customization samples, visit https://microsoft.github.io/BotFramework-WebChat
@@ -125,7 +111,22 @@
         // The token could have access to sensitive information about the user.
         // It must be treated like user password.
  
-         directLine = WebChat.createDirectLine({ domain: new URL('v3/directline', directLineURL), token });
+        const directLine = WebChat.createDirectLine({ domain: new URL('v3/directline', directLineURL), token });
+            
+  const locale = document.documentElement.lang || 'en';
+          window.addEventListener("message", (event) => {
+  if (event.data?.type === "pageInfo") {
+    directLine.postActivity({
+      type: 'event',
+      name: 'startConversation',
+      locale,
+      localTimezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      value: {
+        pageUrl: event.data.pageUrl
+      }
+    }).subscribe();
+  }
+});
  
         // Sends "startConversation" event when the connection is established.
  
