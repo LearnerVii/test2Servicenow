@@ -119,15 +119,20 @@
             if (value === 2) {
               //const pageUrl = window.location.href;
  
-directLine.postActivity({
-  type: 'event',
-  name: 'startConversation',
-  locale,
-  localTimezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-  value: {
-    pageUrl: window.location.href
+window.addEventListener("message", (event) => {
+  if (event.data?.type === "pageInfo") {
+    directLine.postActivity({
+      type: 'event',
+      name: 'startConversation',
+      locale,
+      localTimezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      value: {
+        pageUrl: event.data.pageUrl
+      }
+    }).subscribe();
   }
-}).subscribe();
+});
+
  
  
  
